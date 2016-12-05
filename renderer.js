@@ -1,19 +1,14 @@
 'use strict';
-const testAPI = document.querySelector('.testAPI');
 
-var tracker = new tracking.ObjectTracker('face');
-
-console.log(tracker);
-
-const showUser = () => {
+  const showUser = () => {
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
-    var tracker = new tracking.ObjectTracker('face');
+    var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']);
 
-    tracker.setInitialScale(4);
-    tracker.setStepSize(2);
-    tracker.setEdgesDensity(0.1);
+    // tracker.setInitialScale(4);
+    tracker.setStepSize(1.7);
+    // tracker.setEdgesDensity(0.1);
     tracking.track('#video', tracker, { camera: true });
 
     tracker.on('track', function(event) {
@@ -27,11 +22,8 @@ const showUser = () => {
         context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
       });
     });
-
-    var gui = new dat.GUI();
-    gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-    gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-    gui.add(tracker, 'stepSize', 1, 5).step(0.1);
   };
 
-  showUser();
+  window.addEventListener('load', () => {
+    showUser();
+  });
